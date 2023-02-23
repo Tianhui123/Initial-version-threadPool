@@ -1,0 +1,4 @@
+# Initial-version-threadPool
+最初实现C++线程池的一些想法，使用最基本的语法实现threadpool
+遇到的问题有：在设计Result类接受submit返回值时，Result类中的task指针与Task类中result指针形成了环形指针，在delete这两个指针时，他们会一直循环的调用对方的析构函数。
+解决办法：调用delete时有两个步骤：1、调用类的析构函数，2、释放开辟的内存。且delete底层本质是使用free来释放内存；所以我在最后调用析构函数的那个类里面使用free来释放内存，此时调用第一个result指针的析构函数时，会delete task指针从而进入Task类里面进行free操作。从而释放两个类的资源且完美的解决了循环调用对方析构函数的问题。
