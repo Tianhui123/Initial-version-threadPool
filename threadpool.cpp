@@ -232,23 +232,27 @@ void Thread::star()
 //////////////////////信号量////////////////
 
 Semaphore::Semaphore() :
-	count_(0)
+	count_(0)，
+	isExit(false)
 {
 
 }
 
 Semaphore::~Semaphore()
 {
+	isExit = true;
 
 }
 
 Semaphore::Semaphore(const Semaphore& p)
 {
 	count_ = p.count_;
+	isExit = p.isExit;
 }
 
 Semaphore::Semaphore(Semaphore&& p)noexcept :
-	count_(p.count_)
+	count_(p.count_),
+	isExit(p.isExit)
 {
 
 }
@@ -269,7 +273,8 @@ Semaphore& Semaphore::operator=(Semaphore&& p)noexcept
 
 void Semaphore::wait()
 {
-
+	if (isExit)
+		return;
 	std::unique_lock<std::mutex>lock(mutex_);
 	cond_.wait(lock, [&]()->bool {return count_ > 0; });
 	--count_;
@@ -278,6 +283,8 @@ void Semaphore::wait()
 
 void Semaphore::post()
 {
+	if (isExit)
+		return;
 
 	std::unique_lock<std::mutex>lock(mutex_);
 	++count_;
