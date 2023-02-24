@@ -14,7 +14,6 @@ const int MAX_THREAD_SIZE = 1024;	// 默认线程最大数量
 
 const int MAX_TASK_SIZE = 1024;		// 默认任务的最大数量
 
-
 class Semaphore
 {
 public:
@@ -37,10 +36,12 @@ public:
 	void post();
 
 private:
+	std::atomic_bool isExit;		// 判断是否退出
 	std::mutex mutex_;				// 互斥锁
 	std::condition_variable cond_;	// 条件变量
 	int count_;						// 计数
 };
+
 
 
 // 接收任意类型的数据
