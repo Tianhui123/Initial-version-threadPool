@@ -247,12 +247,11 @@ Semaphore::~Semaphore()
 Semaphore::Semaphore(const Semaphore& p)
 {
 	count_ = p.count_;
-	isExit = p.isExit;
+
 }
 
 Semaphore::Semaphore(Semaphore&& p)noexcept :
-	count_(p.count_),
-	isExit(p.isExit)
+	count_(p.count_)
 {
 
 }
