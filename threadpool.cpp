@@ -208,7 +208,7 @@ void Task::exac()
 
 /////////////线程类//////////////
 
-Thread::Thread(std::function<void()> &func)
+Thread::Thread(std::function<void()> func)
 	:_func(func)
 {}
 
