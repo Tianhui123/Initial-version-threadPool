@@ -196,7 +196,7 @@ private:
 class Thread
 {
 public:
-	Thread(std::function<void()> &func);
+	Thread(std::function<void()> func);
 	~Thread();
 	void star();
 
